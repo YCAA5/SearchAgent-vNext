@@ -1,0 +1,8 @@
+/build/
+/application/
+/releases/
+/reports/
+/validation/
+__pycache__/
+*.py[cod]
+.env

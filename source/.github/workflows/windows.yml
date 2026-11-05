@@ -1,0 +1,42 @@
+name: Windows tests and application
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-lock.txt
+      - name: Install tested dependencies
+        run: python -m pip install -r requirements-lock.txt
+      - name: Prepare OCR for integration tests
+        shell: pwsh
+        run: |
+          choco install tesseract --yes --no-progress
+          if ($LASTEXITCODE -ne 0) { throw 'OCR installation failed' }
+          $ocr = 'C:\Program Files\Tesseract-OCR'
+          Invoke-WebRequest 'https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/tur.traineddata' -OutFile "$ocr\tessdata\tur.traineddata"
+          "TESSERACT_CMD=$ocr\tesseract.exe" >> $env:GITHUB_ENV
+          "TESSDATA_PREFIX=$ocr\tessdata" >> $env:GITHUB_ENV
+      - name: Tests
+        run: python -m pytest tests -q -p no:cacheprovider
+      - name: Windows application
+        run: python -m PyInstaller --noconfirm SearchAgent.spec
+      - name: Packaged application smoke test
+        shell: pwsh
+        run: |
+          $process = Start-Process -FilePath '.\dist\SearchAgent\SearchAgent.exe' -ArgumentList '--self-test-report', 'self-test.json' -Wait -PassThru -WindowStyle Hidden
+          if ($process.ExitCode -ne 0) { Get-Content self-test.json; throw 'Packaged test failed' }
+      - uses: actions/upload-artifact@v7
+        with:
+          name: SearchAgent-Windows-application-only
+          path: dist/SearchAgent/
+          if-no-files-found: error

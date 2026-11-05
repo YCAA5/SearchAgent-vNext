@@ -1,0 +1,3 @@
+﻿Merhaba Dünya!
+Search Agent TXT testi.
+Türkçe karakterler: ğ ü ş ı ö ç

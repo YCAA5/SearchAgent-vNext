@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+
+# Database and indexes
+database/*.db
+database/*.sqlite*
+data/indexes/
+data/cache/
+
+# User documents
+data/documents/
+
+# IDE
+.vscode/
+.idea/
+
+# Operating System
+Thumbs.db
+.DS_Store
+
+
+# Temporary test images
+data/font_test.png
+.runtime/
+config/desktop.json
+releases/
+.pytest_cache/
+*.spec.bak
+self-test*.json
+
+validation/
+reports/
+*.pending
+preparation.lock

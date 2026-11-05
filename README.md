@@ -16,3 +16,17 @@ Program guide: [source/PROGRAM.md](source/PROGRAM.md)
 The previous project and personal profile have been preserved. No GitHub release has been made.
 
 Translated with DeepL.com (free version)
+
+## Application source
+
+The complete application source, tests, icons, dependency versions and build scripts are in [source/](source/).
+
+- [Complete program guide and system requirements](source/PROGRAM.md)
+- [English overview](source/README.en.md)
+- [Turkish overview](source/README.md)
+- [Changes](source/CHANGELOG.md)
+- [Windows build instructions](source/docs/BUILD.md)
+
+Development commands are run from the `source` directory. The full offline Windows package includes Python libraries, Ollama, Qwen3-Embedding-0.6B and Tesseract; it is distributed separately from Git-tracked source files.
+
+Personal documents, selected folders, indexes, logs, credentials and model weights are excluded from this repository.
